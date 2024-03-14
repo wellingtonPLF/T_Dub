@@ -42,7 +42,7 @@ class _SingUpWidgetState extends State<SingUpWidget> {
             top: _paddingTop,
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30),

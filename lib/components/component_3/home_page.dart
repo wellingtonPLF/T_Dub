@@ -14,7 +14,7 @@ class HomePageWidget extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.114),
           child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Center(
               child: Image.asset('logo.png') //Text(_texto, style: const TextStyle(color: Color.fromARGB(200, 71, 25, 126),fontWeight: FontWeight.bold, fontSize: 25))
