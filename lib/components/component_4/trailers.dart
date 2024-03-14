@@ -14,6 +14,7 @@ class TrailerPageWidget extends StatefulWidget {
 class _TrailerPageWidgetState extends State<TrailerPageWidget> {
   
   List<YoutubePlayerController> items = [];
+  static const colorTheme = Color.fromARGB(255, 27, 7, 65);
 
   @override
   void initState() {
@@ -52,7 +53,7 @@ class _TrailerPageWidgetState extends State<TrailerPageWidget> {
             )
           ) 
         ),
-        backgroundColor: const Color.fromARGB(255, 16, 3, 22),
+        backgroundColor: colorTheme,
       ),
       body: Container(
         color: Colors.white,
@@ -95,10 +96,10 @@ class _TrailerPageWidgetState extends State<TrailerPageWidget> {
                                 Positioned(
                                   top: 0.5 * (200 - 85),
                                   left: 0.5 * (MediaQuery.of(context).size.width * 0.88 - 60),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.play_arrow_outlined,
                                     size: 60,
-                                    color: Color.fromARGB(255, 16, 3, 22),
+                                    color: colorTheme,
                                   ),
                                 ),
                               ],
@@ -109,7 +110,7 @@ class _TrailerPageWidgetState extends State<TrailerPageWidget> {
                             child: Container(
                               height: 42,
                               width: double.maxFinite,
-                              color: const Color.fromARGB(255, 16, 3, 22),
+                              color: colorTheme,
                               child: const Padding(
                                 padding: EdgeInsets.only(bottom: 5, left: 12), 
                                 child: Row(
