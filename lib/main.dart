@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const UserPageWidget(),
+      home: const TrailerPageWidget(),
       routes: {
         '/signUp':(context) => const SingUpWidget(),
         '/login':(context) => const LoginWidget(),
