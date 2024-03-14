@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
-import 'package:video_player/video_player.dart';
+//import 'package:video_player/video_player.dart';
 // ignore: depend_on_referenced_packages
-// import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TrailerPageWidget extends StatefulWidget {
   const TrailerPageWidget({super.key});
@@ -13,33 +13,22 @@ class TrailerPageWidget extends StatefulWidget {
 
 class _TrailerPageWidgetState extends State<TrailerPageWidget> {
   
-  //YoutubePlayerController 
-  List<VideoPlayerController> items = [];
+  List<YoutubePlayerController> items = [];
 
   @override
   void initState() {
     super.initState();
 
     for (int i = 0; i < 3; i++) {
-      var video = VideoPlayerController.networkUrl(Uri.parse('https://www.w3schools.com/html/mov_bbb.mp4'));
-      video.initialize().then((_) {
-        setState(() {});
-      });
+      var video = YoutubePlayerController(
+        initialVideoId: 'yIzRffbRppw',
+        flags: const YoutubePlayerFlags(
+          autoPlay: false,
+          mute: false,
+        ),
+      );
       items.add(video);
     }
-
-    // _controller = YoutubePlayerController(
-    //   initialVideoId: 'YOUR_VIDEO_ID', // Replace with your actual YouTube video ID
-    //   flags: YoutubePlayerFlags(
-    //     autoPlay: true,
-    //     mute: false,
-    //   ),
-    // );
-
-    // YoutubePlayer(
-    //   controller: _controller,
-    //   showVideoProgressIndicator: true,
-    // );
   }
 
   @override
@@ -79,7 +68,7 @@ class _TrailerPageWidgetState extends State<TrailerPageWidget> {
                       // color: const Color.fromARGB(255, 33, 32, 34), 
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color:  Color.fromARGB(255, 233, 233, 233),
+                          color:  const Color.fromARGB(255, 233, 233, 233),
                           width: 3,
                         ),
                       ),
@@ -89,7 +78,10 @@ class _TrailerPageWidgetState extends State<TrailerPageWidget> {
                             child: Stack(
                               children: [
                                 Positioned(
-                                  child: VideoPlayer(items[index]),
+                                  child: YoutubePlayer(
+                                    controller: items[index],
+                                    showVideoProgressIndicator: false,
+                                  )
                                 ),
                                 const Positioned(
                                   top: 5,
@@ -101,8 +93,8 @@ class _TrailerPageWidgetState extends State<TrailerPageWidget> {
                                   ),
                                 ),
                                 Positioned(
-                                  top: 0.5 * (200 - 75),
-                                  left: 0.5 * (MediaQuery.of(context).size.width * 0.85 - 60),
+                                  top: 0.5 * (200 - 85),
+                                  left: 0.5 * (MediaQuery.of(context).size.width * 0.88 - 60),
                                   child: const Icon(
                                     Icons.play_arrow_outlined,
                                     size: 60,
