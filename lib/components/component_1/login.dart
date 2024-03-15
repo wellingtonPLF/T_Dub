@@ -1,6 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+// ignore: depend_on_referenced_packages
+import 'package:go_router/go_router.dart';
+
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({super.key});
@@ -55,10 +57,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                     )
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 90),
+                  padding: const EdgeInsets.only(bottom: 40),
                   child: SizedBox(
                   width: 210,
-                  height: 130,
+                  height: 180,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -144,9 +146,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         width: 210,
                         height: 35,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/login');
-                          },
+                          onPressed: () => context.go('/trailers'),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(3),
@@ -154,6 +154,21 @@ class _LoginWidgetState extends State<LoginWidget> {
                             backgroundColor: Colors.white
                           ),
                           child: const Text('confirm')
+                        )
+                      ),
+                      const SizedBox(height: 10,),
+                      SizedBox(
+                        width: 210,
+                        height: 35,
+                        child: ElevatedButton(
+                          onPressed: () => context.go('/home'),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            backgroundColor: Colors.white
+                          ),
+                          child: const Text('cancel')
                         )
                       )
                     ])

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// ignore: depend_on_referenced_packages
+import 'package:go_router/go_router.dart';
+
 class HomePageWidget extends StatelessWidget {
   const HomePageWidget({super.key});
 
@@ -28,9 +31,7 @@ class HomePageWidget extends StatelessWidget {
                       height: 35,
                       width: 200,
                       child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/login');
-                      },
+                      onPressed: () => GoRouter.of(context).pushNamed('/login'),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                           colorButton,
@@ -43,9 +44,7 @@ class HomePageWidget extends StatelessWidget {
                       height: 35,
                       width: 200,
                       child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/signUp');
-                      },
+                      onPressed: () => GoRouter.of(context).pushNamed('/signUp'),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                           colorButton,

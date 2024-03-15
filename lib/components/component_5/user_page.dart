@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
+import 'package:go_router/go_router.dart';
 
-class UserPageWidget extends StatelessWidget {
+class UserPageWidget extends StatefulWidget {
   const UserPageWidget({super.key});
+  
+  @override
+  State<UserPageWidget> createState() => _UserPageWidgetState();
+}
 
+class _UserPageWidgetState extends State<UserPageWidget> {
   final String userName = "Wellington_PLF";
   final String nameTag = "@wellington_plf";
 
   static const colorMenu = Color.fromARGB(255, 97, 17, 226);
-
   static var items = List.generate(6, (index) => 'Item $index');
+
+  void onTabTapped(int index) {
+    if (index == 0) {
+      context.go('/trailers');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +66,12 @@ class UserPageWidget extends StatelessWidget {
             ListTile(
               title: const Text('settings'),
               onTap: () {},
+            ),
+            ListTile(
+              title: const Text('sign out'),
+              onTap: () {
+                context.go('/login');
+              },
             ),
             ListTile(
               title: const Text('help'),
@@ -205,42 +223,25 @@ class UserPageWidget extends StatelessWidget {
                 ), 
               )
             ),
-            Container(
-              height: 50,
-              color: const Color.fromARGB(255, 250, 250, 250),
-              child: const Row(children: [
-                Expanded(child: Center(child: 
-                  Icon(
-                    Icons.home,
-                    size: 20
-                  ),
-                )),
-                Expanded(child: Center(child: 
-                  Icon(
-                    Icons.tag,
-                    size: 20
-                  ),
-                )),
-                Expanded(child: Center(child: 
-                  Icon(
-                    Icons.add,
-                    size: 20
-                  ),
-                )),
-                Expanded(child: Center(child: 
-                  Icon(
-                    Icons.notifications,
-                    size: 20
-                  ),
-                )),
-                Expanded(child: Center(child: 
-                  Icon(
-                    Icons.person,
-                    size: 22
-                  ),
-                )),
-              ])
-            )
+            BottomNavigationBar(
+              onTap: onTabTapped,
+              currentIndex: 2,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                  backgroundColor: Colors.blue
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.notifications),
+                  label: 'Notifications',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                )
+              ],
+            ),
           ],
         )
       )
