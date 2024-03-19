@@ -1,10 +1,17 @@
+import 'package:dub_tralers/interceptors/jwt_interceptor.dart';
 import 'package:dub_tralers/utils/env_util.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
+// ignore: depend_on_referenced_packages
+import 'package:dio/dio.dart';
+
+
 import 'dart:convert';
 
 class Http {
+
+  static JwtInterceptor interceptor = JwtInterceptor();
   
   static Map<String, String> getHeaders() {
     final Map<String, String> headers = {
@@ -12,6 +19,18 @@ class Http {
       'Content-Type': 'application/json'
     };
     return headers;
+  }
+
+  static Future<Response> requestGetDio(String path) async {
+    final String baseUrl = await EnvUtil.getEnvParam('BASE_URL');
+    final Uri url = Uri.parse('$baseUrl/$path');
+
+    final response = await interceptor.dio.getUri(
+      url, 
+      options: Options(headers: getHeaders()),
+    );
+
+    return response;
   }
 
   static Future<http.Response> requestGet(String path) async {

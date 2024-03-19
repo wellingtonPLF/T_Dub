@@ -11,38 +11,33 @@ class TestandoWidget extends StatefulWidget {
 
 class _TestandoWidgetState extends State<TestandoWidget> {
   final TrailerService trailerService = TrailerService();
-  Trailer myTrailer = Trailer.empty();
-
-  //Constructor
-  _TestandoWidgetState(); //{}
+  Trailer myTrailer = Trailer.nullObject();
 
   @override
   void initState() {
     super.initState();
+  }
 
+  void listarTrailers() {
     trailerService.listTrailer().then((result) {
-      
+      print(result);
     }).catchError((error) {
       print('Error loading .env file: $error');
     });
   }
 
-  //OnChanges
-  // @override
-  // void didUpdateWidget(covariant TestandoWidget oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  // }
-
-  //OnDestroy
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text(myTrailer.getName()!),
+      body: Column(children: [
+        Text(myTrailer.getName()!),
+        ElevatedButton(
+          onPressed: () {
+            listarTrailers();
+          }, 
+          child: Text("myButton")
+        )
+      ],),
     );
   }
 }

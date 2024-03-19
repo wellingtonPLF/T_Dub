@@ -19,11 +19,10 @@ class TrailerService {
   }
 
   Future<List<Trailer>> listTrailer() async {
-    final response = await api.Http.requestGet('$baseUrl/');
+    final response = await api.Http.requestGetDio('$baseUrl/');
 
     if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
-      return Trailer.fromJsonList(jsonResponse);
+      return Trailer.fromJsonList(response.data);
     } 
     else {
       throw Exception('Failed to list trailer: ${response.statusCode}');
