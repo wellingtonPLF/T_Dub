@@ -1,4 +1,3 @@
-import 'package:dub_tralers/models/trailer.dart';
 import 'package:dub_tralers/utils/env_util.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
@@ -28,14 +27,14 @@ class Http {
   }
 
   //Post
-  static Future<http.Response> requestPost(String path, Trailer trailer) async {
+  static Future<http.Response> requestPost(String path, dynamic obj) async {
     final String baseUrl = await EnvUtil.getEnvParam('BASE_URL');
     final Uri url = Uri.parse('$baseUrl/$path');
 
     final response = await http.post(
       url, 
       headers: getHeaders(),
-      body: jsonEncode(trailer.toJson())
+      body: jsonEncode(obj.toJson())
     );
 
     return response;
@@ -43,14 +42,14 @@ class Http {
   
 
   //Update
-  static Future<http.Response> requestUpdate(String path, Trailer trailer) async {
+  static Future<http.Response> requestUpdate(String path, dynamic obj) async {
     final String baseUrl = await EnvUtil.getEnvParam('BASE_URL');
     final Uri url = Uri.parse('$baseUrl/$path');
 
     final response = await http.put(
       url, 
       headers: getHeaders(),
-      body: jsonEncode(trailer.toJson())
+      body: jsonEncode(obj.toJson())
     );
 
     return response;

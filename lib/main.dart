@@ -4,6 +4,7 @@ import 'package:dub_tralers/components/component_3/home_page.dart';
 import 'package:dub_tralers/components/component_2/sign_up.dart';
 import 'package:dub_tralers/components/component_1/login.dart';
 import 'package:dub_tralers/components/component_test/testando.dart';
+import 'package:dub_tralers/components/component_test/video_test.dart';
 
 // ignore: depend_on_referenced_packages
 import 'package:go_router/go_router.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routerConfig: GoRouter(
-        initialLocation: '/testando',
+        initialLocation: '/home',
         redirect: (BuildContext context, GoRouterState state) {
           var guardPath = state.fullPath == '/trailers';
           var isAuthenticated = true;
@@ -67,6 +68,11 @@ class MyApp extends StatelessWidget {
             name:'/testando', 
             path: '/testando', 
             builder: (context, state) => const TestandoWidget()
+          ),
+          GoRoute(
+            name:'/videoTest', 
+            path: '/videoTest', 
+            builder: (context, state) => const VideoTestWidget()
           )
         ],
       )

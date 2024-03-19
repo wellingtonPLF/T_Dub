@@ -1,9 +1,12 @@
+import 'package:dub_tralers/models/trailer.dart';
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import '../../services/trailer_service.dart';
 
 // ignore: depend_on_referenced_packages
 import 'package:go_router/go_router.dart';
+
+// ignore: depend_on_referenced_packages
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class TrailerPageWidget extends StatefulWidget {
   const TrailerPageWidget({super.key});
@@ -14,31 +17,32 @@ class TrailerPageWidget extends StatefulWidget {
 
 class _TrailerPageWidgetState extends State<TrailerPageWidget> {
   
+  final TrailerService trailerService = TrailerService();
   List<YoutubePlayerController> items = [];
+  List<String> trailersName = [];
   static const colorPage = Color.fromARGB(255, 84, 23, 196);
 
   @override
   void initState() {
     super.initState();
 
-    for (int i = 0; i < 3; i++) {
-      var video = YoutubePlayerController(
-        initialVideoId: 'N9_5_Ee2sUs',
-        flags: const YoutubePlayerFlags(
+    trailerService.listTrailer().then((result) {
+      for (Trailer trailer in result) {
+        var video = YoutubePlayerController.fromVideoId(
+          videoId: trailer.getYoutubeUrl()!,
           autoPlay: false,
-          mute: false,
-        ),
-      );
-      items.add(video);
-    }
-  }
+          params: const YoutubePlayerParams(showFullscreenButton: true),
+        );
+        
+        setState(() {
+          items.add(video);
+          trailersName.add(trailer.getName()!);
+        });
+      }
+    }).catchError((error) {
+      print('Error loading .env file: $error');
+    });
 
-  @override
-  void dispose() {
-    super.dispose();
-    for (var video in items) {
-      video.dispose();
-    }
   }
 
   void onTabTapped(int index) {
@@ -84,18 +88,12 @@ class _TrailerPageWidgetState extends State<TrailerPageWidget> {
                           Expanded(
                             child: Stack(
                               children: [
-                                Container(
-                                  width: double.infinity,
-                                  height: 300,
-                                  color: Colors.black, 
-                                  child: const Text("")
+                                Positioned.fill(
+                                  child: YoutubePlayer(
+                                    controller: items[index],
+                                    aspectRatio: MediaQuery.of(context).size.width / (220 - kToolbarHeight),
+                                  ),
                                 ),
-                                // Positioned(
-                                //   child: YoutubePlayer(
-                                //     controller: items[index],
-                                //     showVideoProgressIndicator: false,
-                                //   )
-                                // ),
                                 const Positioned(
                                   top: 5,
                                   left: 5,
@@ -114,12 +112,12 @@ class _TrailerPageWidgetState extends State<TrailerPageWidget> {
                               height: 42,
                               width: double.maxFinite,
                               color: Colors.white,
-                              child: const Padding(
+                              child: Padding(
                                 padding: EdgeInsets.only(bottom: 5, left: 12), 
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text("Rabbit, Apple and a Butterfly", 
+                                    Text(trailersName[index], 
                                       style: TextStyle(color: colorPage, fontWeight: FontWeight.w600)
                                     )
                                   ]

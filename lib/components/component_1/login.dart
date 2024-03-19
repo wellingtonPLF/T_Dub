@@ -1,8 +1,9 @@
+import 'package:dub_tralers/models/auth.dart';
+import 'package:dub_tralers/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 // ignore: depend_on_referenced_packages
 import 'package:go_router/go_router.dart';
-
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({super.key});
@@ -12,14 +13,13 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
+  final AuthService authService = AuthService();
   final _texto = 'Login';
   final double _paddingTop = 40;
   static const colorHint = Color.fromARGB(255, 132, 119, 138);
 
   TextEditingController usernameController = TextEditingController(text: ' ');
-  TextEditingController emailController = TextEditingController(text: ' ');
   TextEditingController passwordController = TextEditingController(text: ' ');
-  TextEditingController confirmPasswordController = TextEditingController(text: ' ');
 
   late List<Map<String, dynamic>> textFieldArray;
 
@@ -29,9 +29,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     textFieldArray = [
       {'controller': usernameController, 'tapOn': false},
-      {'controller': emailController, 'tapOn': false},
       {'controller': passwordController, 'tapOn': false},
-      {'controller': confirmPasswordController, 'tapOn': false},
     ];
   }
 
@@ -115,8 +113,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                               }
                             }
                           },
-                          child: TextField(
+                          child: TextFormField(
                             controller: textFieldArray[1]['controller'],
+                            obscureText: textFieldArray[1]['controller'].text != ' ',
                             onTap: () {
                               textFieldArray[1]['controller'].text = '';
 
@@ -129,8 +128,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                             },
                             style: const TextStyle(color: Colors.white),
                             decoration: InputDecoration(
-                              labelText: textFieldArray[1]['controller'].text == ' ' ? 'Email' : 
-                              (textFieldArray[1]['controller'].text == '' ? 'Email': ''),
+                              labelText: textFieldArray[1]['controller'].text == ' ' ? 'Password' : 
+                              (textFieldArray[1]['controller'].text == '' ? 'Password': ''),
                               labelStyle: TextStyle(
                                 color: textFieldArray[1]['tapOn'] ? colorHint : Colors.white
                               ),
@@ -146,7 +145,21 @@ class _LoginWidgetState extends State<LoginWidget> {
                         width: 210,
                         height: 35,
                         child: ElevatedButton(
-                          onPressed: () => context.go('/trailers'),
+                          onPressed: () {
+                            Auth obj = Auth.fromArray([
+                              usernameController.text,
+                              passwordController.text
+                            ]);
+
+                            if (usernameController.text.isNotEmpty && passwordController.text.isNotEmpty){
+                              authService.authentication(obj).then((value) {
+                                print(value);
+                                context.go('/trailers');
+                              }).catchError((onError) {
+                                print(onError);
+                              });
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(3),
@@ -185,7 +198,6 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 }
-
 
 class CurvedPainter extends CustomPainter {
   @override

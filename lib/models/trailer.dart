@@ -1,3 +1,4 @@
+
 class Trailer {
   int? _id;
   String? _name;
@@ -11,7 +12,9 @@ class Trailer {
     _url = url;
   }
 
-  Trailer.empty() {
+  Trailer.empty();
+
+  Trailer.nullObject() {
     _id = 0;
     _name = 'Undefined';
     _youtubeUrl = '';
@@ -40,12 +43,16 @@ class Trailer {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': _id,
-      'name': _name,
-      'youtube_url': _youtubeUrl,
-      'url': _url,
-    };
+    Map<String, dynamic> jsonMap = {};
+    if (_id != null) jsonMap['id'] = _id;
+    if (_name != null) jsonMap['name'] = _name;
+    if (_youtubeUrl != null) jsonMap['youtubeUrl'] = _youtubeUrl;
+    if (_url != null) jsonMap['url'] = _url;
+    return jsonMap;
+  }
+
+  static List<Map<String, dynamic>> listToJson(List<Trailer> listObj) {
+    return listObj.map((json) => json.toJson()).toList();
   }
 
   int? getId() {

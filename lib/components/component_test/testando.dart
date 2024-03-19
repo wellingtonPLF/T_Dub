@@ -21,10 +21,7 @@ class _TestandoWidgetState extends State<TestandoWidget> {
     super.initState();
 
     trailerService.listTrailer().then((result) {
-      print(result);
-      //  setState(() {
-      //   myTrailer = result;
-      // });
+      
     }).catchError((error) {
       print('Error loading .env file: $error');
     });

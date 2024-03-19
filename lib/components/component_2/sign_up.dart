@@ -1,4 +1,9 @@
+import 'package:dub_tralers/models/auth.dart';
+import 'package:dub_tralers/services/auth_service.dart';
 import 'package:flutter/material.dart';
+
+// ignore: depend_on_referenced_packages
+import 'package:go_router/go_router.dart';
 
 class SingUpWidget extends StatefulWidget {
   const SingUpWidget({super.key});
@@ -8,6 +13,8 @@ class SingUpWidget extends StatefulWidget {
 }
 
 class _SingUpWidgetState extends State<SingUpWidget> {
+  final AuthService authService = AuthService();
+
   final _texto = 'Sign Up';
   final double _paddingTop = 40;
   static const colorHint = Color.fromARGB(255, 132, 119, 138);
@@ -147,14 +154,22 @@ class _SingUpWidgetState extends State<SingUpWidget> {
                               }
                             }
                           },
-                          child: TextField(
+                          child: TextFormField(
                             controller: textFieldArray[2]['controller'],
+                            obscureText: textFieldArray[2]['controller'].text != ' ',
                             onTap: () {
                               textFieldArray[2]['controller'].text = '';
 
                               setState(() {
                                 textFieldArray[2]['tapOn'] = true;
                               });
+                            },
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please enter your password';
+                              }
+                              // Add additional password validation if needed
+                              return null;
                             },
                             onChanged: (value) {
                               setState(() {});
@@ -186,8 +201,9 @@ class _SingUpWidgetState extends State<SingUpWidget> {
                               }
                             }
                           },
-                          child: TextField(
+                          child: TextFormField(
                             controller: textFieldArray[3]['controller'],
+                            obscureText: textFieldArray[3]['controller'].text != ' ',
                             onTap: () {
                               textFieldArray[3]['controller'].text = '';
 
@@ -230,7 +246,23 @@ class _SingUpWidgetState extends State<SingUpWidget> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, '/login');
+                                if (usernameController.text.length > 2) {
+                                  if (emailController.text.length > 12) {
+                                    if (passwordController.text == confirmPasswordController.text) {
+                                      Auth obj = Auth.fromArray([
+                                        emailController.text,
+                                        usernameController.text,
+                                        passwordController.text
+                                      ]);
+                                
+                                      authService.authInsert(obj).then((value) {
+                                        context.go('/login');
+                                      }).catchError((onError) {
+                                        print(onError);
+                                      });
+                                    }
+                                  }
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
