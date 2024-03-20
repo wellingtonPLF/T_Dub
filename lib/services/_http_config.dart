@@ -1,11 +1,8 @@
 import 'package:dub_tralers/interceptors/jwt_interceptor.dart';
 import 'package:dub_tralers/utils/env_util.dart';
-// ignore: depend_on_referenced_packages
-import 'package:http/http.dart' as http;
 
 // ignore: depend_on_referenced_packages
 import 'package:dio/dio.dart';
-
 
 import 'dart:convert';
 
@@ -21,39 +18,25 @@ class Http {
     return headers;
   }
 
-  static Future<Response> requestGetDio(String path) async {
+  static Future<Response> requestGet(String path) async {
     final String baseUrl = await EnvUtil.getEnvParam('BASE_URL');
-    final Uri url = Uri.parse('$baseUrl/$path');
 
-    final response = await interceptor.dio.getUri(
-      url, 
+    final response = await interceptor.dio.get(
+      '$baseUrl/$path', 
       options: Options(headers: getHeaders()),
     );
 
     return response;
   }
 
-  static Future<http.Response> requestGet(String path) async {
-    final String baseUrl = await EnvUtil.getEnvParam('BASE_URL');
-    final Uri url = Uri.parse('$baseUrl/$path');
-
-    final response = await http.get(
-      url, 
-      headers: getHeaders()
-    );
-
-    return response;
-  }
-
   //Post
-  static Future<http.Response> requestPost(String path, dynamic obj) async {
+  static Future<Response> requestPost(String path, dynamic obj) async {
     final String baseUrl = await EnvUtil.getEnvParam('BASE_URL');
-    final Uri url = Uri.parse('$baseUrl/$path');
 
-    final response = await http.post(
-      url, 
-      headers: getHeaders(),
-      body: jsonEncode(obj.toJson())
+    final response = await interceptor.dio.post(
+      '$baseUrl/$path', 
+      options: Options(headers: getHeaders()),
+      data: jsonEncode(obj.toJson())
     );
 
     return response;
@@ -61,27 +44,25 @@ class Http {
   
 
   //Update
-  static Future<http.Response> requestUpdate(String path, dynamic obj) async {
+  static Future<Response> requestUpdate(String path, dynamic obj) async {
     final String baseUrl = await EnvUtil.getEnvParam('BASE_URL');
-    final Uri url = Uri.parse('$baseUrl/$path');
 
-    final response = await http.put(
-      url, 
-      headers: getHeaders(),
-      body: jsonEncode(obj.toJson())
+    final response = await interceptor.dio.put(
+      '$baseUrl/$path', 
+      options: Options(headers: getHeaders()),
+      data: jsonEncode(obj.toJson())
     );
 
     return response;
   }
 
   //Delete
-  static Future<http.Response> requestDelete(String path) async {
+  static Future<Response> requestDelete(String path) async {
     final String baseUrl = await EnvUtil.getEnvParam('BASE_URL');
-    final Uri url = Uri.parse('$baseUrl/$path');
 
-    final response = await http.delete(
-      url, 
-      headers: getHeaders()
+    final response = await interceptor.dio.delete(
+      '$baseUrl/$path', 
+      options: Options(headers: getHeaders()),
     );
 
     return response;

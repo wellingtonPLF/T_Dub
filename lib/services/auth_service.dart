@@ -10,11 +10,10 @@ class AuthService {
     final response = await api.Http.requestPost('$baseUrl/authentication/', auth);
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return json.decode(response.data);
     } 
     else {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
-      throw Exception(jsonResponse['detail']);
+      throw Exception(response.data['detail']);
     }
   }
 
@@ -22,7 +21,7 @@ class AuthService {
     final response = await api.Http.requestGet('$baseUrl/isLoggedIn/');
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return json.decode(response.data);
     } 
     else {
       throw Exception('Failed to load Auth: ${response.statusCode}');
@@ -31,13 +30,12 @@ class AuthService {
 
   Future<Auth> authInsert(Auth auth) async {
     final response = await api.Http.requestPost('$baseUrl/', auth);
-    Map<String, dynamic> jsonResponse = json.decode(response.body);
 
     if (response.statusCode == 200) {  
-      return Auth.fromJson(jsonResponse);
+      return Auth.fromJson(response.data);
     } 
     else {
-      throw Exception(jsonResponse);
+      throw Exception(response.data);
     }
   }
 
@@ -45,11 +43,10 @@ class AuthService {
     final response = await api.Http.requestUpdate('$baseUrl/${auth.getId()}/', auth);
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return json.decode(response.data);
     } 
     else {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
-      throw Exception(jsonResponse['detail']);
+      throw Exception(response.data['detail']);
     }
   }
 
@@ -57,11 +54,10 @@ class AuthService {
     final response = await api.Http.requestPost('$baseUrl/acceptAuth/', auth);
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return json.decode(response.data);
     } 
     else {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
-      throw Exception(jsonResponse['detail']);
+      throw Exception(response.data['detail']);
     }
   }
 
@@ -69,7 +65,7 @@ class AuthService {
     final response = await api.Http.requestGet('$baseUrl/limitSize/');
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return json.decode(response.data);
     } 
     else {
       throw Exception('Failed to load LimitSize: ${response.statusCode}');
@@ -80,11 +76,10 @@ class AuthService {
     final response = await api.Http.requestGet('$baseUrl/refresh/');
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return json.decode(response.data);
     } 
     else {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
-      throw Exception(jsonResponse['detail']);
+      throw Exception(response.data['detail']);
     }
   }
 
@@ -92,11 +87,10 @@ class AuthService {
     final response = await api.Http.requestGet('$baseUrl/logout/');
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return json.decode(response.data);
     } 
     else {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
-      throw Exception(jsonResponse['detail']);
+      throw Exception(response.data['detail']);
     }
   }
 }
