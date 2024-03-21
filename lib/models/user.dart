@@ -25,6 +25,9 @@ class User {
   }
 
   User.fromArray(List<dynamic> myarray) {
+    if (myarray.length == 1) {
+      _nickname = myarray[0] as String?;
+    }
     if (myarray.length == 4) {
       _nickname = myarray[0] as String?;
       _bornDate = myarray[1] as String?;
@@ -65,12 +68,28 @@ class User {
     return _nickname;
   }
 
-  String? getYoutubeUrl() {
+  String? getBornDate() {
     return _bornDate;
+  }
+
+  int? getAuth() {
+    return _auth;
+  }
+
+  void setId(int id) {
+    _id = id;
   }
 
   void setNickName(String nickname) {
     _nickname = nickname;
+  }
+
+  void setBornDate(String bornDate) {
+    _bornDate = bornDate;
+  }  
+
+  void setAuth(int auth) {
+    _auth = auth;
   }
 
   @override

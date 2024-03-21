@@ -1,4 +1,6 @@
 import 'package:dub_tralers/models/trailer.dart';
+import 'package:dub_tralers/services/auth_service.dart';
+import 'package:dub_tralers/services/user_service.dart';
 import 'package:flutter/material.dart';
 import '../../services/trailer_service.dart';
 
@@ -11,6 +13,8 @@ class TestandoWidget extends StatefulWidget {
 
 class _TestandoWidgetState extends State<TestandoWidget> {
   final TrailerService trailerService = TrailerService();
+  final UserService userService = UserService();
+  final AuthService authService = AuthService();
   Trailer myTrailer = Trailer.nullObject();
 
   @override
@@ -19,10 +23,14 @@ class _TestandoWidgetState extends State<TestandoWidget> {
   }
 
   void listarTrailers() {
-    trailerService.listTrailer().then((result) {
+
+    authService.testando().then((result) {
       print(result);
-    }).catchError((error) {
-      print('Error loading .env file: $error');
+      userService.searchUser('wellington').then((value) {
+        print(value);
+      }).catchError((onError) {
+        print("searchUser error"); 
+      });
     });
   }
 

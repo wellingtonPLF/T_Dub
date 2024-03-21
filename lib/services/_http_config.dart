@@ -9,6 +9,7 @@ import 'dart:convert';
 class Http {
 
   static JwtInterceptor interceptor = JwtInterceptor();
+  static Dio dio = Dio();
   
   static Map<String, String> getHeaders() {
     final Map<String, String> headers = {
@@ -29,6 +30,17 @@ class Http {
     return response;
   }
 
+  static Future<Response> easyGet(String path) async {
+    final String baseUrl = await EnvUtil.getEnvParam('BASE_URL');
+
+    final response = await dio.get(
+      '$baseUrl/$path', 
+      options: Options(headers: getHeaders()),
+    );
+
+    return response;
+  }
+
   //Post
   static Future<Response> requestPost(String path, dynamic obj) async {
     final String baseUrl = await EnvUtil.getEnvParam('BASE_URL');
@@ -42,7 +54,6 @@ class Http {
     return response;
   }
   
-
   //Update
   static Future<Response> requestUpdate(String path, dynamic obj) async {
     final String baseUrl = await EnvUtil.getEnvParam('BASE_URL');

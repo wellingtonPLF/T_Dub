@@ -1,3 +1,4 @@
+import 'package:dub_tralers/services/auth_service.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:go_router/go_router.dart';
@@ -10,6 +11,7 @@ class UserPageWidget extends StatefulWidget {
 }
 
 class _UserPageWidgetState extends State<UserPageWidget> {
+  final AuthService authService = AuthService();
   final String userName = "Wellington_PLF";
   final String nameTag = "@wellington_plf";
 
@@ -70,6 +72,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
             ListTile(
               title: const Text('sign out'),
               onTap: () {
+                authService.logOut().then((value) {});
                 context.go('/login');
               },
             ),
