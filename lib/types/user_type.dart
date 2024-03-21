@@ -19,7 +19,7 @@ class UserT extends User{
     }
   }
 
-  factory UserT.fromJson(Map<String, dynamic> json) {
+  factory UserT.fromJson(dynamic json) {
     return UserT.fromArray([
         json['id'],
         json['nickname'],

@@ -28,6 +28,10 @@ class User {
     if (myarray.length == 1) {
       _nickname = myarray[0] as String?;
     }
+    if (myarray.length == 2) {
+      _nickname = myarray[0] as String?;
+      _bornDate = myarray[1] as String?;
+    }
     if (myarray.length == 4) {
       _nickname = myarray[0] as String?;
       _bornDate = myarray[1] as String?;
@@ -37,12 +41,16 @@ class User {
   }
 
   factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+    // List<dynamic> result = [];
+    // for (var entry in json.entries) {
+    //   result.add(json[entry.key]);
+    // }
+    return User.fromArray([
       json['id'],
       json['nickname'],
       json['bornDate'],
-      json['auth'],
-      json['trailers'],
+      json['auth_id'],
+      json['trailers']]
     );
   }
 
@@ -55,7 +63,7 @@ class User {
     if (_id != null) jsonMap['id'] = _id;
     if (_nickname != null) jsonMap['nickname'] = _nickname;
     if (_bornDate != null) jsonMap['bornDate'] = _bornDate;
-    if (_auth != null) jsonMap['auth'] = _auth;
+    if (_auth != null) jsonMap['auth_id'] = _auth;
     if (_trailers != null) jsonMap['trailers'] = _trailers;
     return jsonMap;
   }

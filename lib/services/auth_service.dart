@@ -30,7 +30,7 @@ class AuthService {
   Future<Auth> authInsert(Auth auth) async {
     final response = await api.Http.requestPost('$baseUrl/', auth);
 
-    if (response.statusCode == 200) {  
+    if (response.statusCode == 200) {
       return Auth.fromJson(response.data);
     } 
     else {

@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routerConfig: GoRouter(
-        initialLocation: '/testando',
+        initialLocation: '/home',
         redirect: (BuildContext context, GoRouterState state) {
           var guardPath = state.fullPath == '/trailers';
           var isAuthenticated = true;

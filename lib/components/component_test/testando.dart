@@ -23,15 +23,7 @@ class _TestandoWidgetState extends State<TestandoWidget> {
   }
 
   void listarTrailers() {
-
-    authService.testando().then((result) {
-      print(result);
-      userService.searchUser('wellington').then((value) {
-        print(value);
-      }).catchError((onError) {
-        print("searchUser error"); 
-      });
-    });
+    print("OK");
   }
 
   @override

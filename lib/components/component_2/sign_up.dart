@@ -1,6 +1,14 @@
 import 'package:dub_tralers/models/auth.dart';
+import 'package:dub_tralers/models/user.dart';
 import 'package:dub_tralers/services/auth_service.dart';
+import 'package:dub_tralers/services/trailer_service.dart';
+import 'package:dub_tralers/services/user_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 
 // ignore: depend_on_referenced_packages
 import 'package:go_router/go_router.dart';
@@ -14,10 +22,20 @@ class SingUpWidget extends StatefulWidget {
 
 class _SingUpWidgetState extends State<SingUpWidget> {
   final AuthService authService = AuthService();
+  final UserService userService = UserService();
+
+  final TrailerService trailerService = TrailerService();
+  
+
+  DateTime selectedDate = DateTime.now();
 
   final _texto = 'Sign Up';
-  final double _paddingTop = 40;
+  double diff = 70;
+  final double paddingTop = 40;
+  late double inputHeight;
   static const colorHint = Color.fromARGB(255, 132, 119, 138);
+
+  TextEditingController dateController = TextEditingController(text: DateTime.now().toString());
 
   TextEditingController usernameController = TextEditingController(text: ' ');
   TextEditingController emailController = TextEditingController(text: ' ');
@@ -30,11 +48,14 @@ class _SingUpWidgetState extends State<SingUpWidget> {
   void initState() {
     super.initState();
 
+    inputHeight = 220 + diff;
+
     textFieldArray = [
       {'controller': usernameController, 'tapOn': false},
       {'controller': emailController, 'tapOn': false},
       {'controller': passwordController, 'tapOn': false},
       {'controller': confirmPasswordController, 'tapOn': false},
+      {'controller': dateController, 'tapOn': false},
     ];
   }
 
@@ -46,7 +67,7 @@ class _SingUpWidgetState extends State<SingUpWidget> {
         color: const Color.fromARGB(255, 84, 23, 196),
         child: Padding(
           padding: EdgeInsets.only(
-            top: _paddingTop,
+            top: paddingTop,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -61,7 +82,7 @@ class _SingUpWidgetState extends State<SingUpWidget> {
                 ),
                 SizedBox(
                   width: 210, // Set the width of the row
-                  height: 220, // Set the height of the row
+                  height: inputHeight, // Set the height of the row
                   child: Column(
                     children: [
                       Expanded(
@@ -229,6 +250,88 @@ class _SingUpWidgetState extends State<SingUpWidget> {
                         )
                       ),
                       const SizedBox(height: 10,),
+                      SizedBox(
+                        height: 50,
+                        child: Container(
+                          color: Color.fromARGB(255, 54, 6, 116),
+                          // alignment: Alignment.top,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 10, top: 6),
+                                  child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: const Text(
+                                        'Born Date:',
+                                        style: TextStyle(fontSize: 12, color: Colors.white),
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        '${selectedDate.year}/${(selectedDate.month > 9)? '': 0}${selectedDate.month}/${selectedDate.day}',
+                                        style: const TextStyle(fontSize: 15, color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                )
+                              ),
+                                                          
+                              const SizedBox(height: 10),
+                              
+                              SizedBox(
+                              child: Flex(
+                                  direction: Axis.horizontal,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        DatePicker.showDatePicker(
+                                          context,
+                                          showTitleActions: true,
+                                          minTime: DateTime(2000, 1, 1),
+                                          maxTime: DateTime(2100, 12, 31),
+                                          onChanged: (date) {
+                                            setState(() {
+                                              selectedDate = date;
+                                            });
+                                          },
+                                          onConfirm: (date) {
+                                            setState(() {
+                                              selectedDate = date;
+                                            });
+                                          },
+                                          currentTime: DateTime.now(),
+                                          locale: LocaleType.en,
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(0),
+                                        ),
+                                        backgroundColor: Color.fromARGB(255, 49, 4, 109),
+                                      ),
+                                      child: const Icon(
+                                        Icons.date_range,
+                                        size: 20,
+                                        color: Colors.white
+                                      ),
+                                    )
+                                  ],
+                                )
+                              )
+                            ],
+                          )
+                        )
+                      ),
+                      const SizedBox(height: 10,),
                       Row(children: [
                           Expanded(
                             child: ElevatedButton(
@@ -254,9 +357,17 @@ class _SingUpWidgetState extends State<SingUpWidget> {
                                         usernameController.text,
                                         passwordController.text
                                       ]);
-                                
+                                      
                                       authService.authInsert(obj).then((value) {
-                                        context.go('/login');
+                                        User user = User.fromArray([usernameController.text, dateController.text.substring(0, 10)]);
+                                        user.setAuth(value.getId()!);
+                                        
+                                        userService.insert(user).then( (_) {
+                                            context.go('/login');
+                                          }
+                                        ).catchError( (_) {
+                                          print('Error no user insertion');
+                                        });
                                       }).catchError((onError) {
                                         print(onError);
                                       });
@@ -280,7 +391,7 @@ class _SingUpWidgetState extends State<SingUpWidget> {
               ),
               Center(
                 child: CustomPaint(
-                  size: Size(MediaQuery.of(context).size.width, 398 - _paddingTop), 
+                  size: Size(MediaQuery.of(context).size.width, 398 - paddingTop - diff), 
                   painter: CurvedPainter(),
                 ),
               ),
