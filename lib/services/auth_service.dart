@@ -28,14 +28,19 @@ class AuthService {
   }
 
   Future<Auth> authInsert(Auth auth) async {
-    final response = await api.Http.requestPost('$baseUrl/', auth);
+    try {
+      final response = await api.Http.requestPost('$baseUrl/', auth);
 
-    if (response.statusCode == 200) {
-      return Auth.fromJson(response.data);
-    } 
-    else {
-      throw Exception(response.data);
+      if (response.statusCode == 200) {
+        return Auth.fromJson(response.data);
+      } 
+      else {
+        throw Exception(response.data);
+      }
     }
+    catch(_) {
+      throw Exception('Error at authInsert Response!');
+    }   
   }
 
   Future<String> authUpdate(Auth auth) async {

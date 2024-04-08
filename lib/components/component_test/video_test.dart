@@ -1,9 +1,12 @@
+import 'package:dub_tralers/models/user.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 // import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class VideoTestWidget extends StatefulWidget {
-  const VideoTestWidget({super.key});
+  final Object? receive;
+  
+  const VideoTestWidget({super.key, required this.receive});
   
   @override
   State<VideoTestWidget> createState() => _VideoTestWidgetState();
@@ -11,6 +14,7 @@ class VideoTestWidget extends StatefulWidget {
 
 class _VideoTestWidgetState extends State<VideoTestWidget> {
   // late YoutubePlayerController _controller;
+  late User? x;
 
   //Constructor
   _VideoTestWidgetState(); //{}
@@ -22,8 +26,9 @@ class _VideoTestWidgetState extends State<VideoTestWidget> {
     //   autoPlay: false,
     //   params: const YoutubePlayerParams(showFullscreenButton: true),
     // );
-
     super.initState();
+    x = widget.receive as User?;
+    print(x?.getNickName());
   }
 
   //OnChanges
@@ -40,6 +45,7 @@ class _VideoTestWidgetState extends State<VideoTestWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Text("OK")
     );

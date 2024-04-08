@@ -56,13 +56,18 @@ class UserService {
   }
 
   Future<UserT> insert(User user) async {
-    final response = await api.Http.requestPost('$baseUrl/', user);
+    try {
+      final response = await api.Http.requestPost('$baseUrl/', user);
 
-    if (response.statusCode == 200) {
-      return UserT.fromJson(response.data);
-    } 
-    else {
-      throw Exception('Failed to load User: ${response.statusCode}');
+      if (response.statusCode == 200) {
+        return UserT.fromJson(response.data);
+      } 
+      else {
+        throw Exception('Failed to load User: ${response.statusCode}');
+      }
+    }
+    catch(_) {
+      throw Exception('Error at userInsert Response!');
     }
   }
 

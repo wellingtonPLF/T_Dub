@@ -3,10 +3,7 @@ import 'package:dub_tralers/models/user.dart';
 import 'package:dub_tralers/services/auth_service.dart';
 import 'package:dub_tralers/services/trailer_service.dart';
 import 'package:dub_tralers/services/user_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 
@@ -365,8 +362,8 @@ class _SingUpWidgetState extends State<SingUpWidget> {
                                         userService.insert(user).then( (_) {
                                             context.go('/login');
                                           }
-                                        ).catchError( (_) {
-                                          print('Error no user insertion');
+                                        ).catchError( (e) {
+                                          print(e);
                                         });
                                       }).catchError((onError) {
                                         print(onError);
