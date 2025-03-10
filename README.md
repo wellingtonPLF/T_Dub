@@ -41,7 +41,7 @@ Você pode visualizar o layout do projeto através da imagem apresentada logo ac
 
 - Clone o repositório
 - Instale as dependências com `flutter pub get`
-- Inicie a aplicação no vscode atraves do simulador `Pixel 3 API 35`
+- Inicie a aplicação no vs-code através do simulador `Pixel 3 API 35`
 ao entrar no arquivo main.dart e selecionar `Run`
 
 Agora você pode visualizar e utilizar a aplicação.
