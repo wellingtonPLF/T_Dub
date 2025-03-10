@@ -29,6 +29,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [Flutter](https://www.flutter.dev)
 - [Dart](https://dart.dev)
 - [Jwt](https://jwt.io/)
+- [Git](https://git-scm.com/)
 
 ## 💻 Projeto
 
